@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>김빈채 — Frontend Developer</title>
+  <meta name="description" content="프론트엔드 개발자 김빈채 이력서 — 아키텍처 재설계, 빌드 자동화, QA 프로세스 구축">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
+  <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            toss: {
+              blue: '#3182f6',
+              'blue-light': '#4a93f7',
+              dark: '#0a0a0a',
+              card: '#141414',
+              'card-hover': '#1a1a1a',
+              muted: '#6b7280',
+              border: '#1f1f1f',
+              'border-light': '#2a2a2a',
+            }
+          }
+        },
+      },
+    }
+  </script>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Pretendard', system-ui, sans-serif; background: #0a0a0a; color: #e5e7eb; -webkit-font-smoothing: antialiased; word-break: keep-all; }
+    ::selection { background: #3182f6; color: #fff; }
+
+    /* Noise overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      pointer-events: none;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 128px;
+    }
+
+    /* Gradient mesh bg */
+    .mesh-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% 0%, rgba(49,130,246,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 100%, rgba(49,130,246,0.04) 0%, transparent 50%);
+    }
+
+    /* Fade in animation */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(1.5rem); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in {
+      opacity: 0;
+      animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Stagger delays */
+    .delay-1 { animation-delay: 100ms; }
+    .delay-2 { animation-delay: 200ms; }
+    .delay-3 { animation-delay: 300ms; }
+    .delay-4 { animation-delay: 400ms; }
+    .delay-5 { animation-delay: 500ms; }
+    .delay-6 { animation-delay: 600ms; }
+    .delay-7 { animation-delay: 700ms; }
+    .delay-8 { animation-delay: 800ms; }
+    .delay-9 { animation-delay: 900ms; }
+    .delay-10 { animation-delay: 1000ms; }
+
+    /* Accent line */
+    .accent-line {
+      width: 3px;
+      background: linear-gradient(to bottom, #3182f6, transparent);
+      border-radius: 999px;
+    }
+
+    /* Tag hover */
+    .skill-tag {
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .skill-tag:hover {
+      background: rgba(49,130,246,0.15);
+      color: #4a93f7;
+      transform: translateY(-1px);
+    }
+
+    /* Result metric */
+    .metric {
+      background: linear-gradient(135deg, rgba(49,130,246,0.1), rgba(49,130,246,0.03));
+      border: 1px solid rgba(49,130,246,0.12);
+    }
+
+    /* Link hover */
+    a { transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+
+    /* Divider */
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, #1f1f1f 20%, #1f1f1f 80%, transparent);
+    }
+
+    /* Print */
+    @media print {
+      body { background: #fff; color: #111; }
+      body::after, .mesh-bg { display: none; }
+      .fade-in { opacity: 1; animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="mesh-bg"></div>
+
+  <div class="relative z-10 max-w-3xl mx-auto px-5 sm:px-8 pt-16 sm:pt-24 pb-20">
+
+    <!-- ==================== HEADER ==================== -->
+    <header class="fade-in mb-16 sm:mb-20">
+      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-8">
+        <div>
+          <p class="text-toss-blue text-sm font-medium tracking-wide mb-3 uppercase">Frontend Developer</p>
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-tight text-white">김빈채</h1>
+        </div>
+        <div class="flex flex-col gap-2 text-sm text-zinc-400">
+          <a href="tel:+821076157365" class="flex items-center gap-2 hover:text-white">
+            <iconify-icon icon="solar:phone-linear" width="16"></iconify-icon>
+            +82 10-7615-7365
+          </a>
+          <a href="mailto:ekdldksp123@naver.com" class="flex items-center gap-2 hover:text-white">
+            <iconify-icon icon="solar:letter-linear" width="16"></iconify-icon>
+            ekdldksp123@naver.com
+          </a>
+          <a href="https://github.com/ekdldksp123" target="_blank" class="flex items-center gap-2 hover:text-white">
+            <iconify-icon icon="solar:code-square-linear" width="16"></iconify-icon>
+            github.com/ekdldksp123
+          </a>
+        </div>
+      </div>
+
+      <p class="text-base sm:text-lg leading-relaxed text-zinc-400 max-w-[60ch]">
+        다양한 서비스를 개발하면서 개발 환경의 비효율을 발견하고, <span class="text-zinc-200">아키텍처 재설계</span>·<span class="text-zinc-200">빌드 자동화</span>·<span class="text-zinc-200">QA 프로세스 구축</span>을 통해 팀의 생산성을 높여온 프론트엔드 개발자입니다. 프론트엔드 기술의 내부 동작 원리를 파악하고 최적의 개발환경을 설계하는 데 관심이 많습니다.
+      </p>
+    </header>
+
+    <!-- ==================== EXPERIENCE ==================== -->
+    <section class="fade-in delay-1 mb-16 sm:mb-20">
+      <div class="flex items-center gap-3 mb-10">
+        <h2 class="text-xs font-semibold tracking-[0.2em] uppercase text-zinc-500">Experience</h2>
+        <div class="flex-1 h-px bg-zinc-800/60"></div>
+      </div>
+
+      <!-- 직방 -->
+      <article class="fade-in delay-2 mb-14">
+        <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-1">
+          <div class="flex items-baseline gap-2">
+            <h3 class="text-xl font-bold text-white">직방</h3>
+            <span class="text-xs text-zinc-500 font-medium">프리랜서</span>
+          </div>
+          <time class="text-sm text-zinc-500 tabular-nums">2025.12 — 현재</time>
+        </div>
+        <p class="text-sm text-toss-blue font-medium mb-5">Frontend Developer</p>
+
+        <div class="pl-4 border-l-2 border-zinc-800">
+          <h4 class="text-base font-semibold text-zinc-200 mb-3">직방, 호갱노노 신규 개발 및 유지보수</h4>
+          <ul class="space-y-2 text-sm text-zinc-400 leading-relaxed">
+            <li class="flex gap-2"><span class="text-zinc-600 mt-0.5 shrink-0"><iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon></span>직방 채팅 서비스 개선 및 신규 서비스 개발</li>
+            <li class="flex gap-2"><span class="text-zinc-600 mt-0.5 shrink-0"><iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon></span>호갱노노 중개사 웹서비스 유지보수</li>
+          </ul>
+        </div>
+      </article>
+
+      <div class="section-divider my-10"></div>
+
+      <!-- ELEMENTS -->
+      <article class="fade-in delay-3 mb-14">
+        <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-1">
+          <div class="flex items-baseline gap-2">
+            <h3 class="text-xl font-bold text-white">ELEMENTS(엘리먼츠)</h3>
+            <span class="text-xs text-zinc-500 font-medium">계약직</span>
+          </div>
+          <time class="text-sm text-zinc-500 tabular-nums">2025.05 — 2025.12</time>
+        </div>
+        <p class="text-sm text-toss-blue font-medium mb-5">Frontend Developer</p>
+
+        <div class="pl-4 border-l-2 border-zinc-800">
+          <h4 class="text-base font-semibold text-zinc-200 mb-2">한글 문서 편집 AI 데스크톱 앱 개발</h4>
+          <p class="text-sm text-zinc-500 mb-5 leading-relaxed">LLM 응답에 맞게 실시간으로 한글 문서를 편집할 수 있는 Electron 데스크톱 앱과, Tiptap 기반 자체 문서 에디터를 개발했습니다.</p>
+
+          <div class="mb-4">
+            <p class="text-[11px] font-semibold tracking-[0.15em] uppercase text-zinc-600 mb-2">What I Did</p>
+            <ul class="space-y-2 text-sm text-zinc-400 leading-relaxed">
+              <li class="flex gap-2"><span class="text-zinc-600 mt-0.5 shrink-0"><iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon></span>Electron ↔ Python child process 간 queue 기반 통신 시스템 설계</li>
+              <li class="flex gap-2"><span class="text-zinc-600 mt-0.5 shrink-0"><iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon></span>WebSocket 기반 LLM 응답 스트리밍 렌더링 및 자동 스크롤 구현</li>
+              <li class="flex gap-2"><span class="text-zinc-600 mt-0.5 shrink-0"><iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon></span>Tiptap 커스텀 Pagination extension 개발 (공식 출시 전 선제 구현)</li>
+              <li class="flex gap-2"><span class="text-zinc-600 mt-0.5 shrink-0"><iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon></span>DDD + Atomic Design Pattern 기반 아키텍처 수립 및 점진적 리팩토링 주도</li>
+              <li class="flex gap-2"><span class="text-zinc-600 mt-0.5 shrink-0"><iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon></span>Playwright + Jest 기반 TDD 환경 구축, QA 프로세스 자동화</li>
+              <li class="flex gap-2"><span class="text-zinc-600 mt-0.5 shrink-0"><iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon></span>Sentry + Winston 양방향 로깅 인프라 구축</li>
+            </ul>
+          </div>
+
+          <div class="mb-5">
+            <p class="text-[11px] font-semibold tracking-[0.15em] uppercase text-zinc-600 mb-2">Results</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="metric inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm text-toss-blue">
+                <iconify-icon icon="solar:chart-2-linear" width="14"></iconify-icon>
+                QA 리소스 2시간 절약
+              </span>
+              <span class="metric inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm text-toss-blue">
+                <iconify-icon icon="solar:bug-minimalistic-linear" width="14"></iconify-icon>
+                디버깅 30분 단축
+              </span>
+              <span class="metric inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm text-toss-blue">
+                <iconify-icon icon="solar:shield-check-linear" width="14"></iconify-icon>
+                시스템 안정성 50% 증가
+              </span>
+              <span class="metric inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm text-toss-blue">
+                <iconify-icon icon="solar:cursor-square-linear" width="14"></iconify-icon>
+                접근성 20% 향상
+              </span>
+              <span class="metric inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm text-toss-blue">
+                <iconify-icon icon="solar:printer-minimalistic-linear" width="14"></iconify-icon>
+                인쇄 CS 40% 감소
+              </span>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-1.5">
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">Electron</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">React 19</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">TypeScript</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">Vite</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">TanStack Query</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">TailwindCSS 4</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">Shadcn-ui</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">Tiptap</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">Playwright</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">Jest</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">Sentry</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">Python</span>
+          </div>
+        </div>
+      </article>
+
+      <div class="section-divider my-10"></div>
+
+      <!-- 메트라이프 -->
+      <article class="fade-in delay-4 mb-14">
+        <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-1">
+          <div class="flex items-baseline gap-2">
+            <h3 class="text-xl font-bold text-white">메트라이프생명보험</h3>
+            <span class="text-xs text-zinc-500 font-medium">계약직</span>
+          </div>
+          <time class="text-sm text-zinc-500 tabular-nums">2024.07 — 2024.11</time>
+        </div>
+        <p class="text-sm text-toss-blue font-medium mb-5">Frontend Developer</p>
+
+        <div class="pl-4 border-l-2 border-zinc-800">
+          <h4 class="text-base font-semibold text-zinc-200 mb-2">금융 보고서 자동화 시스템 개발</h4>
+          <p class="text-sm text-zinc-500 mb-5 leading-relaxed">150종의 금융 감사/업무 보고서를 동적으로 정의하고 엑셀로 내보낼 수 있는 백오피스 시스템을 개발했습니다.</p>
+
+          <div class="mb-4">
+            <p class="text-[11px] font-semibold tracking-[0.15em] uppercase text-zinc-600 mb-2">What I Did</p>
+            <ul class="space-y-2 text-sm text-zinc-400 leading-relaxed">
+              <li class="flex gap-2"><span class="text-zinc-600 mt-0.5 shrink-0"><iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon></span>엑셀 Pivot과 유사한 동적 행/열/값 정의 로직 및 범용 테이블 컴포넌트 설계</li>
+              <li class="flex gap-2"><span class="text-zinc-600 mt-0.5 shrink-0"><iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon></span>양식 정의된 보고서의 xlsx 내보내기 기능 개발</li>
+              <li class="flex gap-2"><span class="text-zinc-600 mt-0.5 shrink-0"><iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon></span>기획자·회계팀과 주 1회 미팅을 통한 KPI 재설정 및 우선순위 조정</li>
+            </ul>
+          </div>
+
+          <div class="mb-5">
+            <p class="text-[11px] font-semibold tracking-[0.15em] uppercase text-zinc-600 mb-2">Results</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="metric inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm text-toss-blue">
+                <iconify-icon icon="solar:document-linear" width="14"></iconify-icon>
+                150종 보고서 중 50% 자동화
+              </span>
+              <span class="metric inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm text-toss-blue">
+                <iconify-icon icon="solar:clock-circle-linear" width="14"></iconify-icon>
+                월 40시간 수작업 제거
+              </span>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-1.5">
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">React 18</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">TypeScript</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">TanStack Query</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">TanStack Router</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">TailwindCSS</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">Webpack 5</span>
+          </div>
+        </div>
+      </article>
+
+      <div class="section-divider my-10"></div>
+
+      <!-- VENDIT -->
+      <article class="fade-in delay-5 mb-14">
+        <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-1">
+          <div class="flex items-baseline gap-2">
+            <h3 class="text-xl font-bold text-white">벤디트(VENDIT Inc.)</h3>
+            <span class="text-xs text-zinc-500 font-medium">정규직</span>
+          </div>
+          <time class="text-sm text-zinc-500 tabular-nums">2023.05 — 2024.07</time>
+        </div>
+        <p class="text-sm text-toss-blue font-medium mb-5">Frontend & Backend Developer</p>
+
+        <!-- Project 1 -->
+        <div class="pl-4 border-l-2 border-zinc-800 mb-8">
+          <h4 class="text-base font-semibold text-zinc-200 mb-2">숙박업 B2C 키오스크 프론트엔드 개발환경 재설계 (V3)</h4>
+          <p class="text-sm text-zinc-500 mb-5 leading-relaxed">레거시 키오스크 앱의 아키텍처를 전면 재설계하고, 빌드/배포 자동화 및 다국어 지원 체계를 구축했습니다.</p>
+
+          <div class="mb-4">
+            <p class="text-[11px] font-semibold tracking-[0.15em] uppercase text-zinc-600 mb-2">What I Did</p>
+            <ul class="space-y-2 text-sm text-zinc-400 leading-relaxed">
+              <li class="flex gap-2"><span class="text-zinc-600 mt-0.5 shrink-0"><iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon></span>Atomic + DDD 디자인 패턴 도입 및 아키텍처 재설계</li>
+              <li class="flex gap-2"><span class="text-zinc-600 mt-0.5 shrink-0"><iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon></span>레거시 로직 함수형 리워크, Vite/Zustand/Turbo Repo 등 신규 스택 도입</li>
+              <li class="flex gap-2"><span class="text-zinc-600 mt-0.5 shrink-0"><iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon></span>GitHub Actions 기반 빌드 프로세스 자동화</li>
+              <li class="flex gap-2"><span class="text-zinc-600 mt-0.5 shrink-0"><iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon></span>commitlint 및 코딩 컨벤션 수립</li>
+              <li class="flex gap-2"><span class="text-zinc-600 mt-0.5 shrink-0"><iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon></span>tolgee 기반 다국어(한/영/중/일) 지원 체계 구축, Storybook 컴포넌트 문서화</li>
+            </ul>
+          </div>
+
+          <div class="mb-5">
+            <p class="text-[11px] font-semibold tracking-[0.15em] uppercase text-zinc-600 mb-2">Results</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="metric inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm text-toss-blue">
+                <iconify-icon icon="solar:rocket-2-linear" width="14"></iconify-icon>
+                빌드 속도 70% 감축
+              </span>
+              <span class="metric inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm text-toss-blue">
+                <iconify-icon icon="solar:bug-minimalistic-linear" width="14"></iconify-icon>
+                SW/HW 이슈 65% 감소
+              </span>
+              <span class="metric inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm text-toss-blue">
+                <iconify-icon icon="solar:shield-check-linear" width="14"></iconify-icon>
+                시스템 안정성 50% 향상
+              </span>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-1.5">
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">React 18</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">Electron</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">TypeScript</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">Vite</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">Zustand</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">TailwindCSS</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">Storybook</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">GraphQL</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">Turbo Repo</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">GitHub Actions</span>
+          </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="pl-4 border-l-2 border-zinc-800">
+          <h4 class="text-base font-semibold text-zinc-200 mb-3">숙박업 PMS SaaS Web — Fullstack</h4>
+
+          <div class="mb-4">
+            <p class="text-[11px] font-semibold tracking-[0.15em] uppercase text-zinc-600 mb-2">What I Did</p>
+            <ul class="space-y-2 text-sm text-zinc-400 leading-relaxed">
+              <li class="flex gap-2"><span class="text-zinc-600 mt-0.5 shrink-0"><iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon></span>GraphQL Subscription 기반 실시간 설정 반영 시스템 구현</li>
+              <li class="flex gap-2"><span class="text-zinc-600 mt-0.5 shrink-0"><iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon></span>헤드리스 컴포넌트 분리 및 custom hook 모듈화</li>
+              <li class="flex gap-2"><span class="text-zinc-600 mt-0.5 shrink-0"><iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon></span>성인인증 UX 리뉴얼</li>
+            </ul>
+          </div>
+
+          <div class="flex flex-wrap gap-2">
+            <span class="metric inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm text-toss-blue">
+              <iconify-icon icon="solar:user-check-linear" width="14"></iconify-icon>
+              만족도 15% 향상
+            </span>
+            <span class="metric inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm text-toss-blue">
+              <iconify-icon icon="solar:verified-check-linear" width="14"></iconify-icon>
+              성인인증 성공률 50% 향상
+            </span>
+            <span class="metric inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm text-toss-blue">
+              <iconify-icon icon="solar:chat-round-check-linear" width="14"></iconify-icon>
+              CS 이슈 30% 감소
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <div class="section-divider my-10"></div>
+
+      <!-- 페이스 -->
+      <article class="fade-in delay-6 mb-14">
+        <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-1">
+          <div class="flex items-baseline gap-2">
+            <h3 class="text-xl font-bold text-white">주식회사 페이스</h3>
+            <span class="text-xs text-zinc-500 font-medium">정규직 · 팀장</span>
+          </div>
+          <time class="text-sm text-zinc-500 tabular-nums">2022.08 — 2023.05</time>
+        </div>
+        <p class="text-sm text-toss-blue font-medium mb-5">Frontend & Backend Developer · Team Lead</p>
+
+        <div class="pl-4 border-l-2 border-zinc-800">
+          <h4 class="text-base font-semibold text-zinc-200 mb-2">디지털 트윈 데스크톱앱 및 SaaS 제품화</h4>
+          <p class="text-sm text-zinc-500 mb-5 leading-relaxed">다중물리 열역학 시뮬레이션이 가능한 디지털 트윈 Electron 앱의 프론트엔드 팀장으로서, 초기 아키텍처 설계부터 납품까지 주도했습니다.</p>
+
+          <div class="mb-4">
+            <p class="text-[11px] font-semibold tracking-[0.15em] uppercase text-zinc-600 mb-2">What I Did</p>
+            <ul class="space-y-2 text-sm text-zinc-400 leading-relaxed">
+              <li class="flex gap-2"><span class="text-zinc-600 mt-0.5 shrink-0"><iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon></span>프론트엔드 아키텍처 설계 및 환경 구성 100% 주도</li>
+              <li class="flex gap-2"><span class="text-zinc-600 mt-0.5 shrink-0"><iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon></span>react-reflex + Generator 기반 재귀적 분할 탭 레이아웃 설계 (VSCode 스타일)</li>
+              <li class="flex gap-2"><span class="text-zinc-600 mt-0.5 shrink-0"><iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon></span>useCallback/useMemo를 통한 3D 렌더링 성능 최적화</li>
+              <li class="flex gap-2"><span class="text-zinc-600 mt-0.5 shrink-0"><iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon></span>프론트엔드 컨벤션 및 컴포넌트 구조 수립·문서화</li>
+              <li class="flex gap-2"><span class="text-zinc-600 mt-0.5 shrink-0"><iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon></span>Python 가상환경 포함 Windows용 Electron 앱 패키징</li>
+              <li class="flex gap-2"><span class="text-zinc-600 mt-0.5 shrink-0"><iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon></span>MAC address 기반 오프라인 라이센스 인증 시스템 구현</li>
+            </ul>
+          </div>
+
+          <div class="mb-5">
+            <p class="text-[11px] font-semibold tracking-[0.15em] uppercase text-zinc-600 mb-2">Results</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="metric inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm text-toss-blue">
+                <iconify-icon icon="solar:delivery-linear" width="14"></iconify-icon>
+                두산에너빌리티 첫 납품 성공
+              </span>
+              <span class="metric inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm text-toss-blue">
+                <iconify-icon icon="solar:user-plus-linear" width="14"></iconify-icon>
+                온보딩 7일로 단축
+              </span>
+              <span class="metric inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm text-toss-blue">
+                <iconify-icon icon="solar:chart-2-linear" width="14"></iconify-icon>
+                분석 시간 30% 단축
+              </span>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-1.5">
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">React 17</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">Electron</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">TypeScript</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">Zustand</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">EmotionJS</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">Webpack 5</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">plotly.js</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">Python</span>
+          </div>
+        </div>
+      </article>
+
+      <div class="section-divider my-10"></div>
+
+      <!-- 산하정보기술 -->
+      <article class="fade-in delay-7 mb-4">
+        <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-1">
+          <div class="flex items-baseline gap-2">
+            <h3 class="text-xl font-bold text-white">(주)산하정보기술</h3>
+            <span class="text-xs text-zinc-500 font-medium">정규직</span>
+          </div>
+          <time class="text-sm text-zinc-500 tabular-nums">2020.11 — 2022.04</time>
+        </div>
+        <p class="text-sm text-toss-blue font-medium mb-5">Frontend & Backend Developer</p>
+
+        <div class="pl-4 border-l-2 border-zinc-800">
+          <h4 class="text-base font-semibold text-zinc-200 mb-2">숙박업 SaaS 백오피스 및 채널 매니지먼트 시스템</h4>
+          <p class="text-sm text-zinc-500 mb-5 leading-relaxed">호텔 예약 시스템과 27개 OTA를 연동하는 채널 매니지먼트 시스템의 프론트엔드·백엔드를 개발했습니다.</p>
+
+          <div class="mb-4">
+            <p class="text-[11px] font-semibold tracking-[0.15em] uppercase text-zinc-600 mb-2">What I Did</p>
+            <ul class="space-y-2 text-sm text-zinc-400 leading-relaxed">
+              <li class="flex gap-2"><span class="text-zinc-600 mt-0.5 shrink-0"><iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon></span>.NET → Java 11 API 마이그레이션, Netflix Eureka 기반 분산 서비스 구성</li>
+              <li class="flex gap-2"><span class="text-zinc-600 mt-0.5 shrink-0"><iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon></span>27개 OTA 채널 연동 REST/SOAP API 및 배치 서비스 개발·검증</li>
+              <li class="flex gap-2"><span class="text-zinc-600 mt-0.5 shrink-0"><iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon></span>로그 관리 UI 및 실시간 검색 기능 개발</li>
+            </ul>
+          </div>
+
+          <div class="mb-5">
+            <p class="text-[11px] font-semibold tracking-[0.15em] uppercase text-zinc-600 mb-2">Results</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="metric inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm text-toss-blue">
+                <iconify-icon icon="solar:bolt-circle-linear" width="14"></iconify-icon>
+                응답속도 30% 개선
+              </span>
+              <span class="metric inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm text-toss-blue">
+                <iconify-icon icon="solar:graph-up-linear" width="14"></iconify-icon>
+                운영 효율 30% 증가
+              </span>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-1.5">
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">React 16</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">Svelte</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">JavaScript</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">Java 11</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">Spring Boot</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">WebFlux</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">Docker</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/60 text-zinc-400 text-xs px-3 py-1">Webpack 5</span>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ==================== SKILLS ==================== -->
+    <section class="fade-in delay-8 mb-16 sm:mb-20">
+      <div class="flex items-center gap-3 mb-10">
+        <h2 class="text-xs font-semibold tracking-[0.2em] uppercase text-zinc-500">Skills</h2>
+        <div class="flex-1 h-px bg-zinc-800/60"></div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div class="rounded-xl bg-zinc-900/50 border border-zinc-800/50 p-5">
+          <div class="flex items-center gap-2 mb-3">
+            <iconify-icon icon="solar:code-linear" class="text-toss-blue" width="18"></iconify-icon>
+            <h3 class="text-sm font-semibold text-zinc-300">Core</h3>
+          </div>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/80 text-zinc-400 text-xs px-3 py-1">React</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/80 text-zinc-400 text-xs px-3 py-1">TypeScript</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/80 text-zinc-400 text-xs px-3 py-1">Next.js</span>
+          </div>
+        </div>
+
+        <div class="rounded-xl bg-zinc-900/50 border border-zinc-800/50 p-5">
+          <div class="flex items-center gap-2 mb-3">
+            <iconify-icon icon="solar:server-square-linear" class="text-toss-blue" width="18"></iconify-icon>
+            <h3 class="text-sm font-semibold text-zinc-300">Build / Infra</h3>
+          </div>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/80 text-zinc-400 text-xs px-3 py-1">Vite</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/80 text-zinc-400 text-xs px-3 py-1">Webpack</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/80 text-zinc-400 text-xs px-3 py-1">Turbo Repo</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/80 text-zinc-400 text-xs px-3 py-1">GitHub Actions</span>
+          </div>
+        </div>
+
+        <div class="rounded-xl bg-zinc-900/50 border border-zinc-800/50 p-5">
+          <div class="flex items-center gap-2 mb-3">
+            <iconify-icon icon="solar:monitor-linear" class="text-toss-blue" width="18"></iconify-icon>
+            <h3 class="text-sm font-semibold text-zinc-300">Desktop / State / Data</h3>
+          </div>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/80 text-zinc-400 text-xs px-3 py-1">Electron</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/80 text-zinc-400 text-xs px-3 py-1">Zustand</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/80 text-zinc-400 text-xs px-3 py-1">TanStack Query</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/80 text-zinc-400 text-xs px-3 py-1">GraphQL</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/80 text-zinc-400 text-xs px-3 py-1">Apollo Client</span>
+          </div>
+        </div>
+
+        <div class="rounded-xl bg-zinc-900/50 border border-zinc-800/50 p-5">
+          <div class="flex items-center gap-2 mb-3">
+            <iconify-icon icon="solar:test-tube-linear" class="text-toss-blue" width="18"></iconify-icon>
+            <h3 class="text-sm font-semibold text-zinc-300">Testing / Monitoring / Style</h3>
+          </div>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/80 text-zinc-400 text-xs px-3 py-1">Playwright</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/80 text-zinc-400 text-xs px-3 py-1">Jest</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/80 text-zinc-400 text-xs px-3 py-1">Storybook</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/80 text-zinc-400 text-xs px-3 py-1">Sentry</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/80 text-zinc-400 text-xs px-3 py-1">Amplitude</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/80 text-zinc-400 text-xs px-3 py-1">Mixpanel</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/80 text-zinc-400 text-xs px-3 py-1">TailwindCSS</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/80 text-zinc-400 text-xs px-3 py-1">EmotionJS</span>
+            <span class="skill-tag inline-block rounded-full bg-zinc-800/80 text-zinc-400 text-xs px-3 py-1">Shadcn-ui</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="fade-in delay-9 pt-8 border-t border-zinc-800/40">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs text-zinc-600">
+        <p>Last updated 2026.03</p>
+        <div class="flex items-center gap-4">
+          <a href="https://github.com/ekdldksp123" target="_blank" class="hover:text-zinc-400 flex items-center gap-1.5">
+            <iconify-icon icon="solar:code-square-linear" width="14"></iconify-icon>
+            GitHub
+          </a>
+          <a href="mailto:ekdldksp123@naver.com" class="hover:text-zinc-400 flex items-center gap-1.5">
+            <iconify-icon icon="solar:letter-linear" width="14"></iconify-icon>
+            Contact
+          </a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Scroll-triggered fade in -->
+  <script>
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.animationPlayState = 'running';
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+    document.querySelectorAll('.fade-in').forEach((el) => {
+      el.style.animationPlayState = 'paused';
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
